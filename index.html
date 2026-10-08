@@ -279,7 +279,7 @@ function ctl(dt){const ix=cl(joy.x+(keys.d||keys.ArrowRight?1:0)-(keys.a||keys.A
  inT-=dt;const tick=inT<=0;if(tick)inT=.0155;
  if(view==='cabin'){cr.x=cl(cr.x+ix*4*dt,-1.1,1.1);cr.z=cl(cr.z+iy*4*dt,-6,7.2);inp=rin;if(cli()&&tick)sendF({t:'in',x:q(cr.x),z:q(cr.z)})}
  else{inp={x:ix,y:iy};if(cli()&&tick)sendF({t:'pin',x:q(ix),y:q(iy)})}}
-
+ 
 /* ---------- RENDER & HUD ---------- */
 function vis(g){for(let i=O.length-1;i>=0;i--){const o=O[i];if(cli()&&o.z>g.pz+40){rmO(o);O.splice(i,1);continue}
  if(o.t==='b'){o.x=o.x0+Math.sin(g.t*2+o.ph)*8;if(o.m)o.m.position.x=o.x}}}
