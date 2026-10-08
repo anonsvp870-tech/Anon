@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="th"><head><meta charset="utf-8">
+<html lang="th">
+<head>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <title>Sky Havoc 3D: สายการบินมรณะ</title>
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700;800&display=swap" rel="stylesheet">
@@ -52,7 +54,9 @@ html,body{margin:0;height:100%;overflow:hidden;background:#000;font-family:'Sara
  #hud{width:min(30%,230px)}
  #btns button{height:54px}#btns button.sw{height:40px}
 }
-</style></head><body>
+</style>
+</head>
+<body>
 <div id="app">
  <div id="view"><canvas id="cv"></canvas><div id="hud"></div><div id="bubble"></div><div id="toast"></div></div>
  <div id="ctrl"><div id="joy"><div id="knob"></div></div><div id="btns"></div></div>
@@ -84,7 +88,7 @@ function scr(h){const o=$('ov');o.innerHTML=h;o.style.display=h?'flex':'none'}
 function toast(m,ms=2800){const t=$('toast');t.textContent=m;t.style.opacity=1;clearTimeout(tt);tt=setTimeout(()=>t.style.opacity=0,ms)}
 function ev(m,k){toast(m);send({t:'ev',m,k:k||0});if(k)fx(k);else try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}}
 
-/* ---------- MENU & NETWORK ---------- */
+ /* ---------- MENU & NETWORK ---------- */
 function menu(){scr(`<h1>✈️ Sky Havoc 3D</h1><h2>สายการบินมรณะ</h2><p>💰 เงินสะสม: ${money.toLocaleString()} บาท</p>
 <button onclick="hostGame()">สร้างเที่ยวบิน</button>
 <div class=row><input id=code type=tel maxlength=4 placeholder="รหัส 4 หลัก"><button onclick="joinGame()">เข้าร่วม</button></div>
@@ -130,7 +134,7 @@ function hostSwap(){clearTimeout(pT);pend=false;swN++;send({t:'swap_do',n:swN});
 function doSwap(){view=view==='pilot'?'cabin':'pilot';cr={x:0,z:-1};joy.x=joy.y=0;const kn=$('knob');if(kn)kn.style.transform='';inp={x:0,y:0};rin={x:0,y:0};clearTimeout(pT2);$('pop').style.display='none';
  if(G)vp={x:G.px,y:G.py,z:G.pz};setBtns();toast('🔄 สลับบทบาทแล้ว! ตอนนี้คุณคือ'+(view==='pilot'?'✈️ กัปตัน':'🧑‍✈️ ลูกเรือ'),3500)}
 
-/* ---------- THREE.JS WORLD ---------- */
+ /* ---------- THREE.JS WORLD ---------- */
 let ren,cam,S1,S2,planeG,engM=[],fireM=[],ground,grid,O=[],paxM=[],crewM;
 const mat=c=>new THREE.MeshLambertMaterial({color:c}),M=(g,c)=>new THREE.Mesh(g,mat(c));
 function rs(){if(!ren)return;const v=$('view'),w=Math.max(1,v.clientWidth),h=Math.max(1,v.clientHeight);ren.setSize(w,h,false);cam.aspect=w/h;cam.fov=cl(65/Math.pow(cam.aspect,.6),65,95);cam.updateProjectionMatrix()}
@@ -194,7 +198,7 @@ function spawn(){const r=R(),z=G.pz-420,x=(R()-.5)*(r>=.3&&r<.5?140:160),sd=Math
  else sp={t:'b',x,y:15+R()*70,z,r:5,ph:R()*6};
  sp.sd=sd;send({t:'sp',o:sp});addO(sp)}
 
-/* ---------- GAME START / END ---------- */
+ /* ---------- GAME START / END ---------- */
 function begin(i){const c=CON[i];
  G={c,hull:100,morale:100,prog:0,heat:[30,30],fire:[false,false],ext:3,thr:1,turb:0,tips:0,pen:0,ventCd:0,pax:[],px:0,py:40,pz:0,trav:0,evT:6,sp:0,inv:0,t:0,snap:0,storm:0,over:false};
  for(let k=0;k<8;k++)G.pax.push({s:true,a:5+R()*15,w:0,nt:3+R()*8,x:seatX(k),z:seatZ(k),tx:0,tz:0,mt:0,e:false,dT:0});
@@ -204,7 +208,7 @@ function end(win,msg){const g=G;g.over=true;const pay=win?Math.round(g.c.rw*(.5+
 function finish(m){running=false;if(G)G.over=true;$('pop').style.display='none';money+=m.pay;try{localStorage.setItem('shm',money)}catch(e){}
  scr(`<h1>${m.win?'🎉 ลงจอดสำเร็จ!':'💥 ภารกิจล้มเหลว'}</h1><p>${m.msg}</p><p>รายได้เที่ยวบินนี้: ${m.pay.toLocaleString()} บาท<br>เงินสะสม: ${money.toLocaleString()} บาท</p><button onclick="location.reload()">กลับเมนูหลัก</button>`)}
 
-/* ---------- HOST SIMULATION ---------- */
+ /* ---------- HOST SIMULATION ---------- */
 function hit(d,m,k){G.hull-=d;ev(m,k)}
 function near(f,max=2.4){let b=null,bd=max;G.pax.forEach(p=>{if(p.e||!f(p))return;const d=Math.hypot(p.x-cr.x,p.z-cr.z);if(d<bd){bd=d;b=p}});return b}
 function hostAct(a){const g=G;if(!g||g.over)return;
@@ -258,7 +262,7 @@ function sim(dt){const g=G,c=g.c;if(g.over)return;g.t+=dt;
  else if(g.hull<=0)end(false,'เครื่องบินตก! ตัวเครื่องพังยับเยิน');
  else if(g.morale<=0)end(false,'ผู้โดยสารก่อจลาจลยึดห้องโดยสาร!')}
 
-/* ---------- INPUT ---------- */
+ /* ---------- INPUT ---------- */
 const jz=$('joy'),kn=$('knob');let jid=null;
 function jm(e){const r=jz.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2;let dx=e.clientX-cx,dy=e.clientY-cy;const d=Math.hypot(dx,dy),mx=r.width/2-14;if(d>mx){dx*=mx/d;dy*=mx/d}const f=v=>Math.abs(v)<.1?0:Math.sign(v)*(Math.abs(v)-.1)/.9;joy.x=f(dx/mx);joy.y=f(dy/mx);kn.style.transform=`translate(${dx}px,${dy}px)`}
 jz.addEventListener('pointerdown',e=>{jid=e.pointerId;try{jz.setPointerCapture(jid)}catch(x){}jm(e)});
@@ -279,8 +283,8 @@ function ctl(dt){const ix=cl(joy.x+(keys.d||keys.ArrowRight?1:0)-(keys.a||keys.A
  inT-=dt;const tick=inT<=0;if(tick)inT=.0155;
  if(view==='cabin'){cr.x=cl(cr.x+ix*4*dt,-1.1,1.1);cr.z=cl(cr.z+iy*4*dt,-6,7.2);inp=rin;if(cli()&&tick)sendF({t:'in',x:q(cr.x),z:q(cr.z)})}
  else{inp={x:ix,y:iy};if(cli()&&tick)sendF({t:'pin',x:q(ix),y:q(iy)})}}
- 
-/* ---------- RENDER & HUD ---------- */
+
+ /* ---------- RENDER & HUD ---------- */
 function vis(g){for(let i=O.length-1;i>=0;i--){const o=O[i];if(cli()&&o.z>g.pz+40){rmO(o);O.splice(i,1);continue}
  if(o.t==='b'){o.x=o.x0+Math.sin(g.t*2+o.ph)*8;if(o.m)o.m.position.x=o.x}}}
 function paxEj(dt){if(!G)return;G.pax.forEach((p,k)=>{const m=paxM[k];if(!m||!p.e)return;const u=m.userData,j=u.ej=(u.ej||0)+dt;
@@ -319,4 +323,6 @@ function frame(ts){requestAnimationFrame(frame);const dt=Math.min(.05,(ts-last)/
  if(!cli())sim(dt);else G.t+=dt;
  ctl(dt);shk=Math.max(0,shk-dt*1.6);vis(G);paxEj(dt);if(!G.over){draw(dt);hud(dt)}}
 requestAnimationFrame(frame);menu();
-</script></body></html>
+</script>
+</body>
+</html>
